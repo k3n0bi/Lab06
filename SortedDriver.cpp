@@ -63,10 +63,6 @@ list<string> getWords(size_t numWords, size_t wordLength, string alphabet)
 // post: The most isolated entry in number has been returned
 double mostIsolated(vector<double> & number)
 {
-	
-	
-	// STUB  STUB  STUB
-
 	int mi = 0; //most isolated
 	double maxdiff = 0; //nearest neightbor difference
 	double nextdiff = 0; //temporary difference of current and next number
@@ -77,7 +73,7 @@ double mostIsolated(vector<double> & number)
 		if (i == 0) // first element
 		{
 			prevdiff = -1; // there is no previous difference
-		} 
+		}
 		if (i == number.size() - 1)  // last element
 		{
 			nextdiff = -1; // there is no next difference
@@ -94,7 +90,7 @@ double mostIsolated(vector<double> & number)
 
 
 		if (i == 0) //first element
-		{ 
+		{
 			leastdiff = nextdiff;
 		}
 
@@ -128,31 +124,44 @@ double mostIsolated(vector<double> & number)
 //         has been returned.
 int unmatched(list<string> & A, list<string> & B)
 {
-	// STUB  STUB  STUB
-	bool found = false; // 
+	std::list<string>::iterator itA = A.begin(); // list A iterator
+	std::list<string>::iterator itB = B.begin(); // list B iterator
 	int AnotinB = 0; // keep track of no match condition
-
-	for(std::list<string>::iterator itA = A.begin(); itA != A.end(); ++itA)
+	string tmpB = ""; // temporary copies so the comparisons don't get messed up when incrementing
+	string tmpA = "";
+	int c = 0; //counter
+	while (itA != A.end())
 	{
-		
-		found = false; //reset
-		for (std::list<string>::iterator itB = B.begin(); itB != B.end(); ++itB)
+		c++;
+		if (itB == B.end() && itA != A.end())
 		{
-			if (*itA == *itB)
+			AnotinB++; // Ran out of B to compare to, just increment for all remaining A.
+			++itA;
+		}
+		else
+		{
+			tmpA = *itA;
+			tmpB = *itB;
+			if (tmpA == tmpB)  // Found
 			{
-				found = true;//found a match
-				break; //get out of loop
+				//Iterate A
+				++itA;
 			}
-		
+			else if (tmpA > tmpB)
+			{
+				//go to next B
+				++itB;
+			}
+			else // if(tmpA < tmpB)
+			{
+				//not found
+				AnotinB++;
+				//go to next A
+				++itA;
+			}
 		}
-		if (found == false)
-		{
-			AnotinB++;
-		}
-		
 	}
-	
-		
+
 	return AnotinB;
 }
 
