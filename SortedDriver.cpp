@@ -2,6 +2,7 @@
 // Ben Howe
 // COSC 2030
 // Lab 06
+// November 7, 2018
 
 // Modified. 
 // Original source:
@@ -24,15 +25,15 @@ using namespace std;
 //         the range minNum to maxNum has been returned.
 vector<double> getNums(size_t listSize, double minNum, double maxNum)
 {
-	vector<double> theList;
-	for (size_t i = 0; i < listSize; ++i)
-	{
-		theList.push_back(randReal(minNum, maxNum));
-	}
+  vector<double> theList;
+  for (size_t i = 0; i < listSize; ++i)
+  {
+    theList.push_back(randReal(minNum, maxNum));
+  }
 
-	sort(begin(theList), end(theList));
+  sort(begin(theList), end(theList));
 
-	return theList;
+  return theList;
 }
 
 
@@ -41,20 +42,20 @@ vector<double> getNums(size_t listSize, double minNum, double maxNum)
 //         alphabet has been returned.
 list<string> getWords(size_t numWords, size_t wordLength, string alphabet)
 {
-	list<string> theWords;
-	for (size_t i = 0; i < numWords; ++i)
-	{
-		string word;
-		for (size_t j = 0; j < wordLength; ++j)
-		{
-			word += alphabet.at(randInt(0, alphabet.size()));
-		}
-		theWords.push_back(word);
-	}
+  list<string> theWords;
+  for (size_t i = 0; i < numWords; ++i)
+  {
+    string word;
+    for (size_t j = 0; j < wordLength; ++j)
+    {
+      word += alphabet.at(randInt(0, alphabet.size()));
+    }
+    theWords.push_back(word);
+  }
 
-	theWords.sort();
+  theWords.sort();
 
-	return theWords;
+  return theWords;
 }
 
 
@@ -63,59 +64,59 @@ list<string> getWords(size_t numWords, size_t wordLength, string alphabet)
 // post: The most isolated entry in number has been returned
 double mostIsolated(vector<double> & number)
 {
-	int mi = 0; //most isolated
-	double maxdiff = 0; //nearest neightbor difference
-	double nextdiff = 0; //temporary difference of current and next number
-	double prevdiff = 0; //temporary difference of current and previous number
-	double leastdiff = 0; //temporary least difference
-	for (int i = 0; i < number.size(); i++)
-	{
-		if (i == 0) // first element
-		{
-			prevdiff = -1; // there is no previous difference
-		}
-		if (i == number.size() - 1)  // last element
-		{
-			nextdiff = -1; // there is no next difference
-		}
+  int mi = 0; //most isolated
+  double maxdiff = 0; //nearest neightbor difference
+  double nextdiff = 0; //temporary difference of current and next number
+  double prevdiff = 0; //temporary difference of current and previous number
+  double leastdiff = 0; //temporary least difference
+  for (int i = 0; i < number.size(); i++)
+  {
+    if (i == 0) // first element
+    {
+      prevdiff = -1; // there is no previous difference
+    }
+    if (i == number.size() - 1)  // last element
+    {
+      nextdiff = -1; // there is no next difference
+    }
 
-		if (i != 0) // compare to previous
-		{
-			prevdiff = abs(number[i - 1] - number[i]);
-		}
-		if (i != number.size() - 1)// compare to next
-		{
-			nextdiff = abs(number[i + 1] - number[i]);
-		}
-
-
-		if (i == 0) //first element
-		{
-			leastdiff = nextdiff;
-		}
-
-		if (i == number.size() - 1) // last element
-		{
-			leastdiff = prevdiff;
-		}
-
-		if (prevdiff != -1 && nextdiff != -1) //for the case when we're not on the first or the last vector element
-		{
-			if (nextdiff > prevdiff) { leastdiff = prevdiff; }
-			if (prevdiff > nextdiff) { leastdiff = nextdiff; }
-		}
+    if (i != 0) // compare to previous
+    {
+      prevdiff = abs(number[i - 1] - number[i]);
+    }
+    if (i != number.size() - 1)// compare to next
+    {
+      nextdiff = abs(number[i + 1] - number[i]);
+    }
 
 
+    if (i == 0) //first element
+    {
+      leastdiff = nextdiff;
+    }
+
+    if (i == number.size() - 1) // last element
+    {
+      leastdiff = prevdiff;
+    }
+
+    if (prevdiff != -1 && nextdiff != -1) //for the case when we're not on the first or the last vector element
+    {
+      if (nextdiff > prevdiff) { leastdiff = prevdiff; }
+      if (prevdiff > nextdiff) { leastdiff = nextdiff; }
+    }
 
 
-		if (leastdiff > maxdiff)
-		{
-			maxdiff = leastdiff;
-			mi = i;
 
-		}
-	}
-	return number[mi];
+
+    if (leastdiff > maxdiff)
+    {
+      maxdiff = leastdiff;
+      mi = i;
+
+    }
+  }
+  return number[mi];
 }
 
 
@@ -124,135 +125,135 @@ double mostIsolated(vector<double> & number)
 //         has been returned.
 int unmatched(list<string> & A, list<string> & B)
 {
-	std::list<string>::iterator itA = A.begin(); // list A iterator
-	std::list<string>::iterator itB = B.begin(); // list B iterator
-	int AnotinB = 0; // keep track of no match condition
-	string tmpB = ""; // temporary copies so the comparisons don't get messed up when incrementing
-	string tmpA = "";
-	int c = 0; //counter
-	while (itA != A.end())
-	{
-		c++;
-		if (itB == B.end() && itA != A.end())
-		{
-			AnotinB++; // Ran out of B to compare to, just increment for all remaining A.
-			++itA;
-		}
-		else
-		{
-			tmpA = *itA;
-			tmpB = *itB;
-			if (tmpA == tmpB)  // Found
-			{
-				//Iterate A
-				++itA;
-			}
-			else if (tmpA > tmpB)
-			{
-				//go to next B
-				++itB;
-			}
-			else // if(tmpA < tmpB)
-			{
-				//not found
-				AnotinB++;
-				//go to next A
-				++itA;
-			}
-		}
-	}
+  std::list<string>::iterator itA = A.begin(); // list A iterator
+  std::list<string>::iterator itB = B.begin(); // list B iterator
+  int AnotinB = 0; // keep track of no match condition
+  string tmpB = ""; // temporary copies so the comparisons don't get messed up when incrementing
+  string tmpA = "";
+  int c = 0; //counter
+  while (itA != A.end())
+  {
+    c++;
+    if (itB == B.end() && itA != A.end())
+    {
+      AnotinB++; // Ran out of B to compare to, just increment for all remaining A.
+      ++itA;
+    }
+    else
+    {
+      tmpA = *itA;
+      tmpB = *itB;
+      if (tmpA == tmpB)  // Found
+      {
+        //Iterate A
+        ++itA;
+      }
+      else if (tmpA > tmpB)
+      {
+        //go to next B
+        ++itB;
+      }
+      else // if(tmpA < tmpB)
+      {
+        //not found
+        AnotinB++;
+        //go to next A
+        ++itA;
+      }
+    }
+  }
 
-	return AnotinB;
+  return AnotinB;
 }
 
 
 int main()
 {
-	cout << "Find the most isolated number" << endl
-		<< "-----------------------------" << endl << endl;
-	while (true)
-	{
-		cout << "Enter size for numbers: ";
-		int n = 0;
-		cin >> n;
-		if (n <= 0)
-			break;
-		cout << "Enter seed for rand: ";
-		unsigned int seed;
-		cin >> seed;
-		srand(seed);
+  cout << "Find the most isolated number" << endl
+    << "-----------------------------" << endl << endl;
+  while (true)
+  {
+    cout << "Enter size for numbers: ";
+    int n = 0;
+    cin >> n;
+    if (n <= 0)
+      break;
+    cout << "Enter seed for rand: ";
+    unsigned int seed;
+    cin >> seed;
+    srand(seed);
 
-		// Construct a sorted list of numbers
-		Timer get;
-		get.start();
-		vector<double> numbers = getNums(n, -n, n);
-		get.stop();
-		cout << "Constructed in " << get() << " seconds"
-			<< endl;
+    // Construct a sorted list of numbers
+    Timer get;
+    get.start();
+    vector<double> numbers = getNums(n, -n, n);
+    get.stop();
+    cout << "Constructed in " << get() << " seconds"
+      << endl;
 
-		if (n < 10)
-			cout << numbers << endl << endl;
+    if (n < 10)
+      cout << numbers << endl << endl;
 
-		// Report a most isolated isolated number
-		Timer time;
-		time.start();
-		double isolated = mostIsolated(numbers);
-		time.stop();
-		cout << "The most isolated number is "
-			<< isolated << endl
-			<< "calculated in " << time() << " seconds"
-			<< endl << endl;
-	}
+    // Report a most isolated isolated number
+    Timer time;
+    time.start();
+    double isolated = mostIsolated(numbers);
+    time.stop();
+    cout << "The most isolated number is "
+      << isolated << endl
+      << "calculated in " << time() << " seconds"
+      << endl << endl;
+  }
 
 
-	cout << endl << endl;
-	cout << "Count the unmatched words" << endl
-		<< "-------------------------" << endl << endl;
-	while (true)
-	{
-		cout << "Enter size for words lists: ";
-		int n = 0;
-		cin >> n;
-		if (n <= 0)
-			break;
-		cout << "Enter word length: ";
-		int wordSize;
-		cin >> wordSize;
-		cout << "Enter alphabet: ";
-		string alphabet;
-		cin >> alphabet;
+  cout << endl << endl;
+  cout << "Count the unmatched words" << endl
+    << "-------------------------" << endl << endl;
+  while (true)
+  {
+    cout << "Enter size for words lists: ";
+    int n = 0;
+    cin >> n;
+    if (n <= 0)
+      break;
+    cout << "Enter word length: ";
+    int wordSize;
+    cin >> wordSize;
+    cout << "Enter alphabet: ";
+    string alphabet;
+    cin >> alphabet;
 
-		cout << "Enter seed for rand: ";
-		unsigned int seed;
-		cin >> seed;
-		srand(seed);
+    cout << "Enter seed for rand: ";
+    unsigned int seed;
+    cin >> seed;
+    srand(seed);
 
-		// Construct two sorted vectors of words
-		Timer get;
-		get.start();
-		list<string> A = getWords(n, wordSize, alphabet);
-		list<string> B = getWords(n, wordSize, alphabet);
-		get.stop();
-		cout << "Constructed in " << get() << " seconds"
-			<< endl;
+    // Construct two sorted vectors of words
+    Timer get;
+    get.start();
+    list<string> A = getWords(n, wordSize, alphabet);
+    list<string> B = getWords(n, wordSize, alphabet);
+    get.stop();
+    cout << "Constructed in " << get() << " seconds"
+      << endl;
 
-		if (wordSize * n < 60)
-		{
-			cout << "A is: " << A << endl
-				<< "B is: " << B << endl;
-		}
+    if (wordSize * n < 60)
+    {
+      cout << "A is: " << A << endl
+        << "B is: " << B << endl;
+    }
 
-		// Report the number of words in the first sorted list
-		//   that are not in the second sorted list
-		Timer time;
-		time.start();
-		int count = unmatched(A, B);
-		time.stop();
-		cout << count
-			<< " words in A were not in B" << endl
-			<< "calculated in " << time() << " seconds"
-			<< endl << endl;
-	}
+    // Report the number of words in the first sorted list
+    //   that are not in the second sorted list
+    Timer time;
+    time.start();
+    int count = unmatched(A, B);
+    time.stop();
+    cout << count
+      << " words in A were not in B" << endl
+      << "calculated in " << time() << " seconds"
+      << endl << endl;
+  }
 
-	return 0;
+  return 0;
 }
